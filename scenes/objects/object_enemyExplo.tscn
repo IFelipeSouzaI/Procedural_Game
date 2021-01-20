@@ -1,0 +1,39 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="Curve" id=1]
+min_value = 1.0
+max_value = 4.0
+_data = [ Vector2( 0, 4 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.100056, 0.0, 0, 0 ]
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends CPUParticles2D
+
+func _ready():
+	self.emitting = true
+	pass
+
+func _on_timer_timeout():
+	queue_free()
+	pass
+"
+
+[node name="object_enemyExplo" type="CPUParticles2D"]
+emitting = false
+amount = 16
+lifetime = 0.4
+one_shot = true
+explosiveness = 1.0
+randomness = 0.4
+direction = Vector2( 0, 0 )
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 30.0
+initial_velocity_random = 0.5
+scale_amount_curve = SubResource( 1 )
+script = SubResource( 2 )
+
+[node name="timer" type="Timer" parent="."]
+wait_time = 0.4
+one_shot = true
+autostart = true
+[connection signal="timeout" from="timer" to="." method="_on_timer_timeout"]

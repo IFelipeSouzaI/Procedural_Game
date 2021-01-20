@@ -1,0 +1,114 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://sprites/gui/startSceneBg.png" type="Texture" id=1]
+[ext_resource path="res://sprites/gui/aboutIcon.png" type="Texture" id=2]
+[ext_resource path="res://sprites/gui/new_gameIcon.png" type="Texture" id=3]
+[ext_resource path="res://sprites/gui/optionsIcon.png" type="Texture" id=4]
+[ext_resource path="res://sprites/gui/selectWd.png" type="Texture" id=5]
+[ext_resource path="res://scripts/game_startScene.gd" type="Script" id=6]
+[ext_resource path="res://sprites/gui/startScene_paralax.png" type="Texture" id=7]
+[ext_resource path="res://sprites/gui/background.png" type="Texture" id=8]
+
+[sub_resource type="Animation" id=1]
+resource_name = "in"
+tracks/0/type = "value"
+tracks/0/path = NodePath("trans:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("icons:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("selectBar:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "out"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("trans:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[node name="game_startScene" type="Node2D"]
+script = ExtResource( 6 )
+
+[node name="bg" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+centered = false
+
+[node name="paralax" type="ParallaxBackground" parent="."]
+layer = -1
+
+[node name="paralax" type="ParallaxLayer" parent="paralax"]
+motion_scale = Vector2( 0.5, 1 )
+motion_mirroring = Vector2( 320, 0 )
+
+[node name="bg" type="Sprite" parent="paralax/paralax"]
+texture = ExtResource( 7 )
+centered = false
+
+[node name="icons" type="Node2D" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+
+[node name="new_game" type="Sprite" parent="icons"]
+position = Vector2( 125, 86 )
+texture = ExtResource( 3 )
+hframes = 2
+
+[node name="options" type="Sprite" parent="icons"]
+position = Vector2( 125, 100 )
+texture = ExtResource( 4 )
+
+[node name="about" type="Sprite" parent="icons"]
+position = Vector2( 125, 114 )
+texture = ExtResource( 2 )
+
+[node name="selectBar" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 125, 86 )
+texture = ExtResource( 5 )
+
+[node name="trans" type="Sprite" parent="."]
+texture = ExtResource( 8 )
+centered = false
+
+[node name="anim" type="AnimationPlayer" parent="."]
+autoplay = "in"
+anims/in = SubResource( 1 )
+anims/out = SubResource( 2 )
+[connection signal="animation_finished" from="anim" to="." method="_on_anim_animation_finished"]

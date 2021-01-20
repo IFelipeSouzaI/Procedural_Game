@@ -1,0 +1,202 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://sprites/gui/mark_windowBg.png" type="Texture" id=1]
+[ext_resource path="res://sprites/gui/mark_sheet.png" type="Texture" id=2]
+[ext_resource path="res://sprites/gui/backgroundWhite.png" type="Texture" id=3]
+[ext_resource path="res://fontes/PixelTiny.ttf" type="DynamicFontData" id=4]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+var words = [\"Oh, hi!\",
+\"Welcome back from your\\nhibernation.\",
+\"My name is Mark\",
+\"I am your exploration\\nand navigation assistant.\",
+\"It's been 4 years since\\nwe left our solar system.\",
+\"Now, we are close to this\\nnew cluster of planets\",
+\"So, hurry up and go to\\nthe mission control room!\"
+]
+
+var t = 0
+
+func _on_anim_animation_finished(anim_name):
+	if anim_name == \"anim\":
+		$anim.play(\"idle\")
+	if anim_name == \"out\":
+		var _e = get_tree().change_scene(\"res://scenes/game/game_missionControl.tscn\")
+	pass
+
+func _on_timer_timeout():
+	$anim.play(\"out\")
+	pass
+
+func talk():
+	$words.text = words[t]
+	$words.visible_characters = 0
+	$wordsShow.start()
+	pass
+
+
+func _on_wordsShow_timeout():
+	if $words.visible_characters != $words.get_total_character_count()+60:
+		$words.visible_characters = $words.visible_characters+1
+	elif t < 6:
+		$words.visible_characters = 0
+		t += 1
+		$words.text = words[t]
+	pass
+"
+
+[sub_resource type="DynamicFont" id=2]
+font_data = ExtResource( 4 )
+
+[sub_resource type="Animation" id=3]
+length = 8.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("mark:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.7, 1.7, 1.8, 2.8, 3.8, 3.9, 4.2, 4.3, 4.4, 4.5, 4.6, 4.8, 5, 5.2, 5.4, 5.6, 5.8, 6, 6.2, 6.4, 6.6, 6.8, 7, 7.2, 7.4, 7.6, 7.8, 8, 8.2, 8.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 1, 0, 0, 1, 0, 0, 1, 2, 3, 4, 5, 5, 6, 7, 8, 9, 5, 6, 7, 8, 9, 5, 6, 7, 8, 9, 5, 6, 7, 8, 9 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("trans:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("bg/mark:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.6, 4.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 1, 4 ]
+}
+tracks/3/type = "method"
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 4.7 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "talk"
+} ]
+}
+
+[sub_resource type="Animation" id=4]
+loop = true
+step = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("mark:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 5, 6, 7, 8, 9 ]
+}
+
+[sub_resource type="Animation" id=5]
+length = 3.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("mark:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 5 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("trans:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5, 1, 1.2, 2.5, 3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ) ]
+}
+
+[node name="game_markTalk" type="Node2D"]
+script = SubResource( 1 )
+
+[node name="bg" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+centered = false
+
+[node name="mark" type="Sprite" parent="bg"]
+position = Vector2( 21, 21 )
+texture = ExtResource( 2 )
+vframes = 5
+hframes = 5
+frame = 1
+
+[node name="mark" type="Sprite" parent="."]
+position = Vector2( 80, 90 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 2 )
+vframes = 5
+hframes = 5
+frame = 1
+
+[node name="words" type="Label" parent="."]
+margin_left = 48.0
+margin_top = 2.0
+margin_right = 154.0
+margin_bottom = 34.0
+custom_fonts/font = SubResource( 2 )
+text = ". . ."
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="trans" type="Sprite" parent="."]
+modulate = Color( 0, 0, 0, 1 )
+texture = ExtResource( 3 )
+centered = false
+
+[node name="anim" type="AnimationPlayer" parent="."]
+autoplay = "anim"
+anims/anim = SubResource( 3 )
+anims/idle = SubResource( 4 )
+anims/out = SubResource( 5 )
+
+[node name="timer" type="Timer" parent="."]
+wait_time = 38.0
+autostart = true
+
+[node name="wordsShow" type="Timer" parent="."]
+wait_time = 0.05
+[connection signal="animation_finished" from="anim" to="." method="_on_anim_animation_finished"]
+[connection signal="timeout" from="timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="wordsShow" to="." method="_on_wordsShow_timeout"]

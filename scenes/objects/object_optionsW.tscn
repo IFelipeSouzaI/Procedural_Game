@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://sprites/gui/windows.png" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+func _ready():
+	set_process(true)
+	pass
+
+func _process(delta):
+	
+	if Input.is_action_just_pressed(\"JUMP\"):
+		get_parent().started = true
+		queue_free()
+	
+	pass
+"
+
+[node name="object_optionsW" type="Node2D"]
+script = SubResource( 1 )
+
+[node name="window" type="Sprite" parent="."]
+texture = ExtResource( 1 )
